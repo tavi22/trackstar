@@ -1,15 +1,19 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React from 'react';
+import SignIn from './components/auth/SignIn';
+import SignUp from './components/auth/SignUp';
+import Auth from './components/auth/Auth';
 
-const LOCAL_STORAGE_KEY = 'todoApp.todos'
+
 
 function App() {
 
   return (
-  <>
-  </>
+  <div className="App">
+    <SignIn />
+    <SignUp />
+    <Auth />
+  </div>
   );
 }
-
-
 
 export default App;

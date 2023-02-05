@@ -20,9 +20,8 @@ function App() {
     <Container>
       <Navbar />
       <Routes>
-
         <Route element={<PrivateRoutes />}>
-          <Route path='/home' element={<Home />} />
+          <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/folders' element={<MyFolders />} />
           <Route path='/analytics' element={<Analytics />} />
@@ -31,8 +30,8 @@ function App() {
         <Route path='/login' element={<SignIn />} />
         <Route path='/register' element={<SignUp />} />
         <Route path='*' element={<NotFound />} />
-
       </Routes>
+      <Auth />
     </Container>
   );
 }

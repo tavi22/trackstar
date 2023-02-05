@@ -1,20 +1,23 @@
 import React, { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../firebase'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    const jwt = localStorage.getItem('jwt');
 
     const login = (e) => {
       e.preventDefault();     
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           localStorage.setItem('jwt', userCredential.user.accessToken);
-          navigate('/home');
+          navigate(from, { replace: true });
         }).catch((error) => {
           console.log(error);
         });
@@ -22,7 +25,8 @@ const SignIn = () => {
 
   return (
     <Container>
-      <div className='register-container'>
+      { jwt === '' ? (
+        <div className='register-container'>
           <form onSubmit={login}>
               <h1>Log In to your Account</h1>
               <input type='email'
@@ -36,6 +40,10 @@ const SignIn = () => {
               <button type='submit'>Log In</button>
           </form>
       </div>
+      ) : (
+        <Navigate to='/'/>
+      )}
+      
       <div className='extra-buttons'>
       <p>Don't have an account?  <NavLink to="/register">Register here</NavLink>.</p>
       </div>

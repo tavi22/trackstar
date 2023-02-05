@@ -1,9 +1,11 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 
 const PrivateRoutes = () => {
+    const location = useLocation();
+
     let jwt = localStorage.getItem('jwt');
     return(
-        jwt === '' ? <Navigate to="/login" /> : <Outlet/>
+        jwt === '' ? <Navigate to="/login" state={{ from: location }} replace/> : <Outlet/>
     );
 }
 

@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FoldersProvider } from './components/contexts/FoldersContext'
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <FoldersProvider>
+      <Provider store={store}>
         <App />
-      </FoldersProvider>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );

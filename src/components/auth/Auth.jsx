@@ -2,6 +2,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import { Button, Stack } from 'react-bootstrap';
 
 const Auth = () => {
     const [authUser, setAuthUser] = useState(null);
@@ -26,16 +27,15 @@ const Auth = () => {
     }
 
   return (
-    <div>
+    <Stack direction='horizontal' gap='2' className='mb-4'>
       {authUser ? (
         <>
-          <p>{`Signed In as ${authUser.email}`}</p>
-          <button onClick={userSignOut}>Sign Out</button>
+          <Button onClick={userSignOut} variant='outline-secondary' className='bg-danger bg-opacity-50 ms-auto'>Sign Out</Button>
         </>
       ) : (
-        <p>Signed Out</p>
+        <p></p>
       )}
-    </div>
+    </Stack>
   )
 }
 

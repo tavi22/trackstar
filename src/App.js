@@ -4,7 +4,7 @@ import SignUp from './components/auth/SignUp';
 import Navbar from './components/Navbar';
 import Home from './components/pages/Home';
 import NotFound from './components/pages/NotFound';
-import { Routes, Route, redirect } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Analytics from './components/pages/Analytics'
 import About from './components/pages/About'
 import Tips from './components/pages/Tips'

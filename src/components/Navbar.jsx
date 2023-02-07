@@ -1,11 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import logo from '../img/trackstar_logo.png'
+import logo from '../img/logo_nobg.png'
 
 const Navbar = () => {
   return (
     <div className='container-fluid mt-3'>
-      <nav className="navbar navbar-expand-lg bg-light navbar-light" >
+      <nav className="navbar navbar-expand-lg navbar-light" style={{backgroundColor: 'lightblue'}}>
         <div className='container'>
           <a className="navbar-brand" href="/">
             <img src={logo} alt="" width="120" height="100" />

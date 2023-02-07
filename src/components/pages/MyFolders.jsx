@@ -21,7 +21,7 @@ const MyFolders = () => {
         <div style={{display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(500px, 1fr)',
         gap: '1rem', alignItems: 'flex-start' }} >
-          <FolderCard name="Entertainment" amount={1200} max={1000} dark></FolderCard>
+          <FolderCard name="Entertainment" amount={100} max={1000} dark></FolderCard>
         </div>
       </Container>
       <AddFolderModal

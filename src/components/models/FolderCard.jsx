@@ -7,7 +7,7 @@ import ViewTransactionsModal from './ViewTransactionsModal';
 
 function getProgressBarVariant(amount, max) {
     const ratio = amount / max;
-    if (ratio < .5) return 'primary';
+    if (ratio < .5) return 'success ';
     if (ratio < .75) return 'warning';
     return 'danger';
 }
@@ -23,7 +23,7 @@ const FolderCard = ({name, amount, max, dark}) => {
   } else if ((amount / max) >= 0.5) {
     classNames.push('bg-warning bg-opacity-10')
   } else if (dark) {
-    classNames.push('text-white bg-dark');
+    classNames.push('text-dark bg-success bg-opacity-10');
   }
 
 

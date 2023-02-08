@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useAddBlogMutation } from '../../services/blogsApi';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +29,11 @@ const AddEditBlog = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          if (progress > 50) {
+            toast.success('Image successfully uploaded!', {
+              position: toast.POSITION.TOP_CENTER
+            })
+          }
           console.log("Upload is " + progress + "% done");
           setProgress(progress);
           switch (snapshot.state) {
@@ -47,7 +52,6 @@ const AddEditBlog = () => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            toast.success("Image Upload Successfully");
             setData((prev) => ({ ...prev, imgURL: downloadURL }));
           });
         }
@@ -64,7 +68,6 @@ const AddEditBlog = () => {
     e.preventDefault();
     if (title && description) {
       await addBlog(data);
-      toast.success("Blog Added Successfully");  
       navigate('/tips');
     }
   }
@@ -96,6 +99,7 @@ const AddEditBlog = () => {
           <br />
           <input type="file" className="form-control-file"
           onChange={(e) => setFile(e.target.files[0])} />
+          <ToastContainer />
         </div>
         <button type="submit" className="btn btn-primary mt-4"
          disabled={progress !== null && progress < 100}>Submit</button>

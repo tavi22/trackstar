@@ -1,10 +1,11 @@
 import { createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react'
-import { serverTimestamp, addDoc, collection, getDocs } from 'firebase/firestore';
+import { serverTimestamp, addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export const blogsApi = createApi ({
     reducerPath: 'blogsApi',
     baseQuery: fakeBaseQuery(),
+    tagTypes: ['Blog'],
     endpoints: (builder) => ({
         fetchBlogs: builder.query({
            async queryFn() {
@@ -22,7 +23,8 @@ export const blogsApi = createApi ({
                 } catch (err) {
                     return {error: err}
                 }
-            }
+            },
+            providesTags: ['Blog']
             
         }),
         addBlog: builder.mutation({
@@ -37,8 +39,20 @@ export const blogsApi = createApi ({
                 }
                 return {data: 'ok'};
             },
+            invalidatesTags: ['Blog']
         }),
+        deleteBlog: builder.mutation({
+            async queryFn(id) {
+                try {
+                    await deleteDoc(doc(db, 'articles', id));
+                    return {data: 'ok'};
+                } catch (err) {
+                    return {error: err};
+                }
+            },
+            invalidatesTags: ['Blog']
+        })
     }),
 });
 
-export const { useFetchBlogsQuery, useAddBlogMutation } = blogsApi;
+export const { useFetchBlogsQuery, useAddBlogMutation, useDeleteBlogMutation } = blogsApi;

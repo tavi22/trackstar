@@ -7,6 +7,7 @@ const Tips = () => {
   const navigate = useNavigate();
   
 
+
   return (
     <Container className='my-4'>
       <Stack direction='horizontal' gap='2' className='mb-4'>
@@ -18,4 +19,4 @@ const Tips = () => {
   )
 }
 
-export default Tips
+export default Tips;

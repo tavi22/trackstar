@@ -2,11 +2,16 @@ import React from 'react'
 import { Card, Stack, Button, Spinner, Row, Col } from 'react-bootstrap'
 import { AlignCenter } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
-import { useFetchBlogsQuery } from '../../services/blogsApi';
-
+import { useDeleteBlogMutation, useFetchBlogsQuery } from '../../services/blogsApi';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { excerpt } from '../utils/Excerpt';
+import { NavLink } from 'react-router-dom';
 
 const ArticleCard = () => {
   const {data, isLoading, isError, error} = useFetchBlogsQuery();
+  const [deleteBlog] = useDeleteBlogMutation();
+
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -14,8 +19,13 @@ const ArticleCard = () => {
             style={{ width: '3rem', height: '3rem'}} animation="border" />
   }
 
-  const handleDelete = (e) => {
-
+  const handleDelete = async (id) => {
+    if (window.confirm('Delete this article?')) {
+      await deleteBlog(id);
+      toast.success('Article sucessfully deleted!', {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
   }
 
   return (
@@ -23,12 +33,14 @@ const ArticleCard = () => {
       <Row className="row-cols-1 row-cols-md-3 g-4">
         {data?.map((item) => (
           <Col key={item.id}>
-          <Card style={{ width: '25rem'}}>
+          <Card style={{ width: '25rem', height:'32rem'}}>
           <Card.Img style={{height: '20rem'}} variant='top' src={item.imgURL} alt={item.title}/>
           <Card.Body>
             <Card.Title className="text-start">{item.title}</Card.Title>
             <Card.Text className="text-start">
-              {item.description}
+              {excerpt(item.description, 80)}
+              <br/>
+              <NavLink to={`/tips/details/${item.id}`}> Read More </NavLink>
             </Card.Text>
             <Stack direction='horizontal' gap='2' className='mt-4'>
               <Button variant='outline-success' className='ms-auto'
@@ -50,6 +62,7 @@ const ArticleCard = () => {
           </Col>
         ))}
       </Row>
+      <ToastContainer />
   </div>
   )
 }

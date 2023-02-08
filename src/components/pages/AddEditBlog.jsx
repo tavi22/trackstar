@@ -2,22 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { toast, ToastContainer } from "react-toastify";
-import { useAddBlogMutation } from '../../services/blogsApi';
-import { useNavigate } from 'react-router-dom';
+import { useAddBlogMutation, useFetchBlogQuery, useUpdateBlogMutation } from '../../services/blogsApi';
+import { useNavigate, useParams } from 'react-router-dom';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 const initialState = {
   title: '',
   description: ''
-}
+};
 
 const AddEditBlog = () => {
   const [data, setData] = useState(initialState);
   const [file, setFile] = useState([]);
   const [progress, setProgress] = useState([]);
   const [addBlog] = useAddBlogMutation();
+  
+  const {id} = useParams();
+  const {data: blog} = useFetchBlogQuery(id ? id : skipToken);
+  const [updateBlog] = useUpdateBlogMutation();
 
   const navigate = useNavigate();
   const {title, description} = data;
+
+  useEffect(() => {
+    if (id && blog) {
+      setData({...blog});
+    }
+  }, [id, blog])
 
   useEffect(() => {
     const uploadFile = () => {
@@ -52,7 +63,9 @@ const AddEditBlog = () => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setData((prev) => ({ ...prev, imgURL: downloadURL }));
+            if (!downloadURL.includes('undefined')) {
+              setData((prev) => ({ ...prev, imgURL: downloadURL }));
+            }
           });
         }
       );
@@ -67,15 +80,20 @@ const AddEditBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title && description) {
-      await addBlog(data);
-      navigate('/tips');
+      if (id) {
+        await updateBlog({id, data});
+        navigate('/tips');
+      } else {
+        await addBlog(data);
+        navigate('/tips');
+      } 
     }
   }
 
 
   return (
     <div className="container my-5">
-      <h1 className="text-center">Create New Article</h1>
+      <h1 className="text-center">{id ? 'Update Article' : 'Create New Article'}</h1>
       <hr />
       <form onSubmit={handleSubmit}>
         <div className="form-group mt-2">
@@ -101,8 +119,8 @@ const AddEditBlog = () => {
           onChange={(e) => setFile(e.target.files[0])} />
           <ToastContainer />
         </div>
-        <button type="submit" className="btn btn-primary mt-4"
-         disabled={progress !== null && progress < 100}>Submit</button>
+        <button type="submit" className="btn btn-primary mt-4" accept="image/png, image/gif, image/jpeg"
+         disabled={progress !== null && progress < 100}>{id ? 'Update' : 'Submit'}</button>
       </form>
     </div>
   )

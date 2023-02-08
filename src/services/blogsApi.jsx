@@ -7,6 +7,7 @@ export const blogsApi = createApi ({
     baseQuery: fakeBaseQuery(),
     tagTypes: ['Blog'],
     endpoints: (builder) => ({
+        
         fetchBlogs: builder.query({
            async queryFn() {
                 try {
@@ -27,6 +28,7 @@ export const blogsApi = createApi ({
             providesTags: ['Blog']
             
         }),
+
         fetchBlog: builder.query({
             async queryFn(id) {
                 try {
@@ -39,6 +41,7 @@ export const blogsApi = createApi ({
             },
             providesTags: ['Blog']
         }),
+
         addBlog: builder.mutation({
             async queryFn(data) {
                 try {
@@ -53,6 +56,7 @@ export const blogsApi = createApi ({
             },
             invalidatesTags: ['Blog']
         }),
+
         deleteBlog: builder.mutation({
             async queryFn(id) {
                 try {
@@ -64,6 +68,7 @@ export const blogsApi = createApi ({
             },
             invalidatesTags: ['Blog']
         }),
+
         updateBlog: builder.mutation({
             async queryFn({id, data}) {
                 try {
@@ -82,4 +87,4 @@ export const blogsApi = createApi ({
 });
 
 export const { useFetchBlogsQuery, useFetchBlogQuery,
-     useAddBlogMutation, useDeleteBlogMutation, useUpdateBlogMutation } = blogsApi;
+               useAddBlogMutation, useDeleteBlogMutation, useUpdateBlogMutation } = blogsApi;

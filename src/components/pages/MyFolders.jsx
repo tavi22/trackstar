@@ -1,12 +1,31 @@
 import React, { useState } from 'react'
-import { Container, Stack, Button } from 'react-bootstrap'
+import { Container, Stack, Button, Spinner, Row, Col } from 'react-bootstrap'
 import AddFolderModal from '../models/AddFolderModal'
 import AddTransactionModal from '../models/AddTransactionModal'
 import FolderCard from '../models/FolderCard'
+import { useFetchFoldersQuery, useDeleteFolderMutation } from '../../services/foldersApi'
+import { toast } from 'react-toastify'
 
 const MyFolders = () => {
   const [showAddFolder, setShowAddFolder] = useState(false);
   const [showAddTransaction, setShowAddTransaction] = useState(false);
+
+  const {data, isLoading} = useFetchFoldersQuery();
+  const [deleteFolder] = useDeleteFolderMutation();
+
+  if (isLoading) {
+    return <Spinner className='me-2 ms-5 mt-5'
+      style={{ width: '3rem', height: '3rem' }} animation="border" />
+  }
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Delete this folder?')) {
+      await deleteFolder(id);
+      toast.success('Folder sucessfully deleted!', {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+  }
 
   return (
     <>
@@ -19,9 +38,15 @@ const MyFolders = () => {
              Add Transaction </Button>
         </Stack>
         <div style={{display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(500px, 1fr)',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(1000px, 1fr)',
         gap: '1rem', alignItems: 'flex-start' }} >
-          <FolderCard name="Entertainment" amount={100} max={1000} dark></FolderCard>
+          <Row className="row-cols-1 row-cols-md-2 g-4">
+            {data?.map((item) => (
+              <Col key={item.id}>
+                <FolderCard name={item.name} amount={item.current} max = {item.max} dark/>
+              </Col>
+            ))}
+          </Row>
         </div>
       </Container>
       <AddFolderModal
@@ -34,4 +59,4 @@ const MyFolders = () => {
   )
 }
 
-export default MyFolders
+export default MyFolders;

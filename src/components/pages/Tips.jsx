@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Button, Stack, Spinner } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import ArticleCard from '../models/ArticleCard';
+import ArticleCard from '../models/ArticleCards';
 
 const Tips = () => {
   const navigate = useNavigate();

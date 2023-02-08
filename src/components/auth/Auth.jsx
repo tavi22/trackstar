@@ -12,6 +12,7 @@ const Auth = () => {
         const listen = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setAuthUser(user);
+                localStorage.setItem('user', user.email);
             } else {
                 setAuthUser(null);
             }

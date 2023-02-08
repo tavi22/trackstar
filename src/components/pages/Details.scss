@@ -1,0 +1,41 @@
+.container {
+    padding: 50px;
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .row {
+      margin-top: 20px;
+      .col-md-4 {
+        text-align: center;
+        img {
+          border-radius: 10px;
+          box-shadow: 0 0 10px #ddd;
+          height: 30rem;
+          width: 30rem;
+        }
+      }
+      .col-md-8 {
+        p {
+          margin-top: 35px;
+          font-size: 1.2rem;
+          line-height: 1.5;
+          margin-bottom: 20px;
+          margin-left: 50px;
+          justify-content:last baseline;
+          align-content:start;
+        }
+
+        span {
+          font-size: 0.5 rem;
+          font-weight: lighter;
+        }
+      }
+    }
+    
+  }

@@ -16,6 +16,7 @@ const AddEditBlog = () => {
   const [file, setFile] = useState([]);
   const [progress, setProgress] = useState([]);
   const [addBlog] = useAddBlogMutation();
+  const author = localStorage.getItem('user');
   
   const {id} = useParams();
   const {data: blog} = useFetchBlogQuery(id ? id : skipToken);
@@ -64,13 +65,14 @@ const AddEditBlog = () => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             if (!downloadURL.includes('undefined')) {
-              setData((prev) => ({ ...prev, imgURL: downloadURL }));
+              setData((prev) => ({ ...prev, imgURL: downloadURL, author: author}));
             }
           });
         }
       );
     };
     file && uploadFile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   const handleChange = (e) => {

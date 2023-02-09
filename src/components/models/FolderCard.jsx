@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Card, ProgressBar, Stack, Button} from 'react-bootstrap'
+import { toast, ToastContainer } from 'react-toastify';
+import { useDeleteFolderMutation } from '../../services/foldersApi';
 import { currencyFormatter } from '../utils/Currency'
 import AddTransactionModal from './AddTransactionModal';
 import ViewTransactionsModal from './ViewTransactionsModal';
@@ -12,10 +14,11 @@ function getProgressBarVariant(amount, max) {
   return 'danger';
 }
 
-const FolderCard = ({ name, amount, max, dark }) => {
+const FolderCard = ({ name, amount, max, dark, id}) => {
   const classNames = []
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [showTransactions, setShowTransactions] = useState(false);
+  const [deleteFolder] = useDeleteFolderMutation();
 
 
   if (amount > max) {
@@ -26,6 +29,14 @@ const FolderCard = ({ name, amount, max, dark }) => {
     classNames.push('text-dark bg-success bg-opacity-10');
   }
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Delete this folder?')) {
+      await deleteFolder(id);
+      toast.success('Folder sucessfully deleted!', {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+  }
 
   return (
     <div>
@@ -47,6 +58,9 @@ const FolderCard = ({ name, amount, max, dark }) => {
             now={amount} />
 
           <Stack direction='horizontal' gap='2' className='mt-4'>
+            <Button variant='outline-danger' type="button" className="close" aria-label="Close" onClick={() => handleDelete(id)}>
+              <span aria-hidden="true">&times;</span>
+            </Button>
             <Button variant='outline-primary' className='ms-auto' onClick={() => setShowAddTransaction(true)}>
               Add Transaction</Button>
             <Button variant='outline-secondary' onClick={() => setShowTransactions(true)}>
@@ -61,6 +75,7 @@ const FolderCard = ({ name, amount, max, dark }) => {
       <ViewTransactionsModal
         show={showTransactions}
         handleClose={() => setShowTransactions(false)} />
+      <ToastContainer />
     </div>
   )
 }

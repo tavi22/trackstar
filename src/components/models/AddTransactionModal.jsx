@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button, Spinner } from 'react-bootstrap'
 import { toast, ToastContainer } from 'react-toastify';
-import { useFetchFoldersQuery, useUpdateFolderMutation } from '../../services/foldersApi';
+import { useFetchFoldersQuery } from '../../services/foldersApi';
 import { useAddTransactionMutation } from '../../services/transactionsApi'
 
 const initialState = {
@@ -15,7 +15,6 @@ const AddTransactionModal = ({show, handleClose, defaultId}) => {
   const [data, setData] = useState(initialState);
   const [addTransaction] = useAddTransactionMutation();
 
-  const [updateFolder] = useUpdateFolderMutation();
   const {data:folders, isLoading} = useFetchFoldersQuery();
 
   const {description, amount, type, folderId} = data;
@@ -29,18 +28,10 @@ const AddTransactionModal = ({show, handleClose, defaultId}) => {
     e.preventDefault();
     if (description && amount && type && folderId) {
       await addTransaction(data);
-      
-
-      let newList = folders.find((fld) => fld.id === folderId).transactions
-      let new2 = [...newList, data]
-      
-      console.log({folderId, new2})
-
-      await updateFolder({id:folderId, data:new2})
-
       toast.success('Transaction sucessfully created!', {
         position: toast.POSITION.TOP_CENTER
       });
+
     }
     handleClose();
     setData(initialState);
@@ -76,7 +67,7 @@ const AddTransactionModal = ({show, handleClose, defaultId}) => {
                 value={amount}
                 name='amount'
                 min={0}
-                step={10}
+                step={0.5}
                 onChange={handleChange}
                 required
               />
@@ -99,7 +90,6 @@ const AddTransactionModal = ({show, handleClose, defaultId}) => {
             <Form.Group className="mb-3" controlId="folderId">
               <Form.Label>Folder</Form.Label>
               <Form.Select 
-                defaultValue={defaultId}
                 type='text'
                 value={folderId}
                 name='folderId'

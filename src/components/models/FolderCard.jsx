@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, ProgressBar, Stack, Button} from 'react-bootstrap'
 import { toast, ToastContainer } from 'react-toastify';
 import { useDeleteFolderMutation } from '../../services/foldersApi';
-import { UNCATEGORIZED_BUDGET_ID } from '../utils/Constants';
+import { UNCATEGORIZED_FOLDER_ID } from '../utils/Constants';
 import { currencyFormatter } from '../utils/Currency'
 import AddTransactionModal from './AddTransactionModal';
 import ViewTransactionsModal from './ViewTransactionsModal';
@@ -31,7 +31,7 @@ const FolderCard = ({ name, amount, max, dark, id}) => {
   }
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this folder?') && id !== UNCATEGORIZED_BUDGET_ID) {
+    if (window.confirm('Delete this folder?') && id !== UNCATEGORIZED_FOLDER_ID) {
       await deleteFolder(id);
       toast.success('Folder sucessfully deleted!', {
         position: toast.POSITION.TOP_CENTER
@@ -75,11 +75,14 @@ const FolderCard = ({ name, amount, max, dark, id}) => {
       </Card>
       <AddTransactionModal
         show={showAddTransaction}
-        handleClose={() => setShowAddTransaction(false)} />
+        handleClose={() => setShowAddTransaction(false)}
+        defaultId={id} />
 
       <ViewTransactionsModal
         show={showTransactions}
-        handleClose={() => setShowTransactions(false)} />
+        handleClose={() => setShowTransactions(false)}
+        name={name}
+        id = {id} />
       <ToastContainer />
     </div>
   )

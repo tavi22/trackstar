@@ -6,7 +6,6 @@ import Home from './components/pages/Home';
 import NotFound from './components/pages/NotFound';
 import { Routes, Route } from "react-router-dom";
 import Analytics from './components/pages/Analytics'
-import About from './components/pages/About'
 import Tips from './components/pages/Tips'
 import MyFolders from './components/pages/MyFolders'
 import Auth from './components/auth/Auth';
@@ -24,7 +23,6 @@ function App() {
       <Routes>
         <Route element={<PrivateRoutes />}>
           <Route path='/' element={<><Home /> <Auth /> </>} />
-          <Route path='/about' element={<About />} />
           <Route path='/folders' element={<MyFolders />} />
           <Route path='/analytics' element={<Analytics />} />
           <Route path='/tips'>

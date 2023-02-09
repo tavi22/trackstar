@@ -5,19 +5,32 @@ import AddTransactionModal from '../models/AddTransactionModal'
 import FolderCard from '../models/FolderCard'
 import { useFetchFoldersQuery } from '../../services/foldersApi'
 import { ToastContainer } from 'react-toastify'
+import { useFetchTransactionsQuery } from '../../services/transactionsApi'
+
 
 const MyFolders = () => {
   const [showAddFolder, setShowAddFolder] = useState(false);
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const {data, isLoading} = useFetchFoldersQuery();
+  const {data:transactions, isLoading:transactionsLoading} = useFetchTransactionsQuery();
 
-  if (isLoading) {
+  if (isLoading || transactionsLoading) {
     return <Spinner className='me-2 ms-5 mt-5'
       style={{ width: '3rem', height: '3rem' }} animation="border" />
   }
 
-  const getAmount = (folder) => {
-    
+  const getSums = (folder) => {
+    let amount = parseInt(folder.current)
+    let max = parseInt(folder.max)
+    transactions.forEach(transaction => {
+      if (transaction.folderId === folder.id) {
+        if (transaction.type === 'false') {
+          amount += parseInt(transaction.amount);
+       } else {
+          max += parseInt(transaction.amount)
+       }
+    }});
+    return { amount, max };
   }
 
   return (
@@ -36,7 +49,7 @@ const MyFolders = () => {
           <Row className="row-cols-1 row-cols-md-2 g-4">
             {data?.map((item) => (
                 <Col key={item.id}>
-                  <FolderCard name={item.name} amount={getAmount(item)} max = {item.max} id={item.id} dark/>
+                  <FolderCard name={item.name} amount={getSums(item).amount} max = {getSums(item).max} id={item.id} dark/>
                 </Col>
           ))}
           </Row>

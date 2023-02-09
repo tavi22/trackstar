@@ -1,5 +1,5 @@
 import { createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react'
-import { serverTimestamp, addDoc, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
+import { serverTimestamp, addDoc, collection, getDocs, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export const foldersApi = createApi ({
@@ -83,8 +83,23 @@ export const foldersApi = createApi ({
             },
             invalidatesTags: ['Folder']
         }),
+
+        updateMax: builder.mutation({
+            async queryFn({id, data}) {
+                try {
+                    await updateDoc(doc(db, 'folders', id), {
+                    max: data,
+                    timestamp: serverTimestamp()
+                    })
+                    return {data: 'ok'};
+                } catch (err) {
+                    return {error: err};
+                }
+            },
+            invalidatesTags: ['Folder']
+        })
     }),
 });
 
 export const { useFetchFoldersQuery, useAddFolderMutation,
-               useFetchFolderQuery, useDeleteFolderMutation, useUpdateFolderMutation} = foldersApi;
+               useFetchFolderQuery, useDeleteFolderMutation, useUpdateFolderMutation, useUpdateMaxMutation} = foldersApi;

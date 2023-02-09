@@ -56,7 +56,7 @@ const AddFolderModal = ({show, handleClose}) => {
                 value={max}
                 name='max'
                 min={0}
-                step={10}
+                step={0.5}
                 onChange={handleChange}
                 required
               />

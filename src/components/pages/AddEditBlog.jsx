@@ -84,6 +84,7 @@ const AddEditBlog = () => {
     if (title && description) {
       if (id) {
         await updateBlog({id, data});
+        console.log(data)
         navigate('/tips');
       } else {
         await addBlog(data);

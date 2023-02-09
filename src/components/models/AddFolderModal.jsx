@@ -6,7 +6,8 @@ import { useAddFolderMutation } from '../../services/foldersApi'
 const initialState = {
   name: '',
   max: 0,
-  current: 0
+  current: 0,
+  transactions: []
 };
 
 const AddFolderModal = ({show, handleClose}) => {
@@ -24,6 +25,7 @@ const AddFolderModal = ({show, handleClose}) => {
       });
     }
     handleClose();
+    setData(initialState);
   }
 
   const handleChange = (e) => {

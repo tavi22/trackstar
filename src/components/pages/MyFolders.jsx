@@ -9,12 +9,15 @@ import { ToastContainer } from 'react-toastify'
 const MyFolders = () => {
   const [showAddFolder, setShowAddFolder] = useState(false);
   const [showAddTransaction, setShowAddTransaction] = useState(false);
-
   const {data, isLoading} = useFetchFoldersQuery();
 
   if (isLoading) {
     return <Spinner className='me-2 ms-5 mt-5'
       style={{ width: '3rem', height: '3rem' }} animation="border" />
+  }
+
+  const getAmount = (folder) => {
+    
   }
 
   return (
@@ -32,10 +35,10 @@ const MyFolders = () => {
         gap: '1rem', alignItems: 'flex-start' }} >
           <Row className="row-cols-1 row-cols-md-2 g-4">
             {data?.map((item) => (
-              <Col key={item.id}>
-                <FolderCard name={item.name} amount={item.current} max = {item.max} id={item.id} dark/>
-              </Col>
-            ))}
+                <Col key={item.id}>
+                  <FolderCard name={item.name} amount={getAmount(item)} max = {item.max} id={item.id} dark/>
+                </Col>
+          ))}
           </Row>
         </div>
       </Container>

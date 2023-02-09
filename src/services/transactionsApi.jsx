@@ -1,51 +1,51 @@
 import { createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react'
-import { serverTimestamp, addDoc, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
+import { serverTimestamp, addDoc, collection, getDocs, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
-export const foldersApi = createApi ({
-    reducerPath: 'foldersApi',
+export const transactionsApi = createApi ({
+    reducerPath: 'transactionsApi',
     baseQuery: fakeBaseQuery(),
-    tagTypes: ['Folder'],
+    tagTypes: ['Transaction'],
     endpoints: (builder) => ({
 
-        fetchFolders: builder.query({
+        fetchTransactions: builder.query({
            async queryFn() {
                 try {
-                    const folderRef = collection(db, 'folders');
-                    const querySnapshot = await getDocs(folderRef);
-                    let folders = [];
+                    const transactionRef = collection(db, 'transactions');
+                    const querySnapshot = await getDocs(transactionRef);
+                    let transactions = [];
                     querySnapshot?.forEach((doc) => {
-                        folders.push({
+                        transactions.push({
                             id: doc.id,
                             ...doc.data()
                         })
                     });
-                    return {data: folders}
+                    return {data: transactions}
                 } catch (err) {
                     return {error: err}
                 }
             },
-            providesTags: ['Folder']
+            providesTags: ['Transaction']
             
         }),
 
-        fetchFolder: builder.query({
+        fetchTransaction: builder.query({
             async queryFn(id) {
                 try {
-                    const docRef = doc(db, 'folders', id);
+                    const docRef = doc(db, 'transactions', id);
                     const snapshot = await getDoc(docRef);
                     return {data: snapshot.data() };
                 } catch (err) {
                     return {error:err};
                 }
             },
-            providesTags: ['Folder']
+            providesTags: ['Transaction']
         }),
 
-        addFolder: builder.mutation({
+        addTransaction: builder.mutation({
             async queryFn(data) {
                 try {
-                    await addDoc(collection(db, 'folders'), {
+                    await addDoc(collection(db, 'transactions'), {
                         ...data,
                         timestamp: serverTimestamp()
                     });
@@ -54,26 +54,26 @@ export const foldersApi = createApi ({
                 }
                 return {data: 'ok'};
             },
-            invalidatesTags: ['Folder']
+            invalidatesTags: ['Transaction']
         }),
 
-        deleteFolder: builder.mutation({
+        deleteTransaction: builder.mutation({
             async queryFn(id) {
                 try {
-                    await deleteDoc(doc(db, 'folders', id));
+                    await deleteDoc(doc(db, 'transactions', id));
                     return {data: 'ok'};
                 } catch (err) {
                     return {error: err};
                 }
             },
-            invalidatesTags: ['Folder']
+            invalidatesTags: ['Transaction']
         }),
 
-        updateFolder: builder.mutation({
+        updateTransaction: builder.mutation({
             async queryFn({id, data}) {
                 try {
-                    await updateDoc(doc(db, 'folders', id), {
-                    transactions: data,
+                    await updateDoc(doc(db, 'transactions', id), {
+                    ...data,
                     timestamp: serverTimestamp()
                     })
                     return {data: 'ok'};
@@ -81,10 +81,10 @@ export const foldersApi = createApi ({
                     return {error: err};
                 }
             },
-            invalidatesTags: ['Folder']
+            invalidatesTags: ['Transaction']
         }),
     }),
 });
 
-export const { useFetchFoldersQuery, useAddFolderMutation,
-               useFetchFolderQuery, useDeleteFolderMutation, useUpdateFolderMutation} = foldersApi;
+export const { useFetchTransactionsQuery, useAddTransactionMutation,
+               useFetchTransactionQuery, useDeleteTransactionMutation, useUpdateTransactionMutation} = transactionsApi;

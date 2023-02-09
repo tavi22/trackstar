@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Card, ProgressBar, Stack, Button} from 'react-bootstrap'
 import { toast, ToastContainer } from 'react-toastify';
 import { useDeleteFolderMutation } from '../../services/foldersApi';
+import { UNCATEGORIZED_BUDGET_ID } from '../utils/Constants';
 import { currencyFormatter } from '../utils/Currency'
 import AddTransactionModal from './AddTransactionModal';
 import ViewTransactionsModal from './ViewTransactionsModal';
@@ -30,9 +31,13 @@ const FolderCard = ({ name, amount, max, dark, id}) => {
   }
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this folder?')) {
+    if (window.confirm('Delete this folder?') && id !== UNCATEGORIZED_BUDGET_ID) {
       await deleteFolder(id);
       toast.success('Folder sucessfully deleted!', {
+        position: toast.POSITION.TOP_CENTER
+      });
+    } else {
+      toast.error("Folder can't be deleted", {
         position: toast.POSITION.TOP_CENTER
       });
     }

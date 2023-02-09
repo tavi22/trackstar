@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 
 const ArticleCards = () => {
   const {data, isLoading} = useFetchBlogsQuery();
-  const [deleteBlog] = useDeleteBlogMutation();
+  const [deleteBlog] = useDeleteBlogMutation(); 
 
   const navigate = useNavigate();
 

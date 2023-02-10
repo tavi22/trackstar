@@ -7,7 +7,6 @@ const initialState = {
   name: '',
   max: 0,
   current: 0,
-  transactions: []
 };
 
 const AddFolderModal = ({show, handleClose}) => {

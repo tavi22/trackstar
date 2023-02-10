@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from 'react-bootstrap';
+import './Auth.scss'
+
 
 const Auth = () => {
     const [authUser, setAuthUser] = useState(null);
@@ -31,7 +33,7 @@ const Auth = () => {
     <Stack direction='horizontal' gap='2' className='mb-4'>
       {authUser ? (
         <>
-          <Button onClick={userSignOut} variant='outline-secondary' className='bg-danger bg-opacity-50 ms-auto'>Sign Out</Button>
+          <Button onClick={userSignOut} variant='danger'>Sign Out</Button>
         </>
       ) : (
         <p></p>

@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useAddBlogMutation, useFetchBlogQuery, useUpdateBlogMutation } from '../../services/blogsApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
+import './AddEditBlog.scss'
 
 const initialState = {
   title: '',

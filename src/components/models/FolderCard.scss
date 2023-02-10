@@ -1,0 +1,35 @@
+.card {
+    .card-title {
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      font-weight: 500;
+  
+      .me-2 {
+        margin-right: 0.5rem;
+      }
+  
+      .text-mute {
+        color: grey;
+        font-size: 0.75rem;
+        margin-left: 0.5rem;
+      }
+    }
+  
+    .progress-bar {
+      border-radius: 1rem;
+    }
+  
+    .stack {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 1rem;
+  
+      .close {
+        margin-right: 1rem;
+      }
+    }
+  }

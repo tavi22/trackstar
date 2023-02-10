@@ -6,6 +6,7 @@ import { UNCATEGORIZED_FOLDER_ID } from '../utils/Constants';
 import { currencyFormatter } from '../utils/Currency'
 import AddTransactionModal from './AddTransactionModal';
 import ViewTransactionsModal from './ViewTransactionsModal';
+import './FolderCard.scss'
 
 
 function getProgressBarVariant(amount, max) {

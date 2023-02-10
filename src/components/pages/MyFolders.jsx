@@ -6,6 +6,7 @@ import FolderCard from '../models/FolderCard'
 import { useFetchFoldersQuery } from '../../services/foldersApi'
 import { ToastContainer } from 'react-toastify'
 import { useFetchTransactionsQuery } from '../../services/transactionsApi'
+import './MyFolders.scss'
 
 
 const MyFolders = () => {
@@ -35,12 +36,12 @@ const MyFolders = () => {
 
   return (
     <>
-      <Container className='my-4'>
+      <Container className='my-4 myContainer'>
         <Stack direction='horizontal' gap='2' className='mb-4'>
           <h1 className='me-auto'> Folders </h1>
-          <Button variant='primary' onClick={() => setShowAddFolder(true)}>
+          <Button variant='primary' className='add-folder-button' onClick={() => setShowAddFolder(true)}>
              Add Folder </Button>
-          <Button variant='outline-primary' onClick={() => setShowAddTransaction(true)}>
+          <Button variant='outline-primary' className='add-transaction-button' onClick={() => setShowAddTransaction(true)}>
              Add Transaction </Button>
         </Stack>
         <div style={{display: 'grid',

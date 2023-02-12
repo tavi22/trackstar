@@ -32,7 +32,7 @@ const ArticleCards = () => {
       <Row className="row-cols-1 row-cols-md-3 g-4">
         {data?.map((item) => (
           <Col key={item.id}>
-            <Card style={{ width: '25rem', height:'32rem'}}>
+            <Card style={{ width: '25rem', height:'33rem'}}>
             <Card.Img style={{height: '20rem'}} variant='top' src={item.imgURL} alt={item.title}/>
             <Card.Body>
               <Card.Title className="text-start">{item.title}</Card.Title>

@@ -46,7 +46,7 @@ const AddTransactionModal = ({show, handleClose, defaultId}) => {
   return (
     <>
       <Modal show={show} onHide={handleClose} >
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} on >
           <Modal.Header closeButton>
             <Modal.Title>New Folder</Modal.Title>
           </Modal.Header>
@@ -97,7 +97,7 @@ const AddTransactionModal = ({show, handleClose, defaultId}) => {
                 required
               >
                 <option id=''>Please select a folder</option>
-                {folders.map(folder => (
+                {folders.map(folder => folder.owner === localStorage.getItem('user') && (
                   <option key={folder.id} value={folder.id}>
                     {folder.name}
                   </option>

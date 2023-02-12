@@ -4,6 +4,8 @@ import { auth } from '../../firebase';
 import { NavLink, useNavigate, Navigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import './SignIn.scss'
+import { useAddFolderMutation } from '../../services/foldersApi';
+
 
 
 const SignUp = () => {
@@ -11,6 +13,7 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const jwt = localStorage.getItem('jwt');
+    const [addFolder] = useAddFolderMutation();
 
     const register = (e) => {
       e.preventDefault();     
@@ -22,6 +25,15 @@ const SignUp = () => {
         }).catch((error) => {
           console.log(error);
         });
+      
+      const unknownFolder = {
+        name: 'Unknown',
+        max: 0,
+        current: 0,
+        owner: email
+      };
+
+      addFolder(unknownFolder);
     }
 
   return (

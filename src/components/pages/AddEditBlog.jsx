@@ -7,12 +7,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import './AddEditBlog.scss'
 
-const initialState = {
-  title: '',
-  description: ''
-};
 
 const AddEditBlog = () => {
+  const initialState = {
+    title: '',
+    description: '',
+    owner: localStorage.getItem('user')
+  };
+  
   const [data, setData] = useState(initialState);
   const [file, setFile] = useState([]);
   const [progress, setProgress] = useState([]);

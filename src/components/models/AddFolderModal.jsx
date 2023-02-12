@@ -3,16 +3,18 @@ import { Modal, Form, Button } from 'react-bootstrap'
 import { toast, ToastContainer } from 'react-toastify';
 import { useAddFolderMutation } from '../../services/foldersApi'
 
-const initialState = {
-  name: '',
-  max: 0,
-  current: 0,
-};
 
 const AddFolderModal = ({show, handleClose}) => {
+  const initialState = {
+    name: '',
+    max: 0,
+    current: 0,
+    owner: localStorage.getItem('user')
+  };
+  
   const [data, setData] = useState(initialState);
   const [addFolder] = useAddFolderMutation();
-
+  
   const {name, max} = data;
 
   const handleSubmit = async (e) => {

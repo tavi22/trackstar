@@ -3,7 +3,6 @@ import { Modal, Button, Stack, Spinner } from 'react-bootstrap'
 import { toast } from 'react-toastify';
 import { useDeleteFolderMutation } from '../../services/foldersApi';
 import { useDeleteTransactionMutation, useFetchTransactionsQuery } from '../../services/transactionsApi';
-import { UNCATEGORIZED_FOLDER_ID, UNCATEGORIZED_FOLDER_NAME } from '../utils/Constants'
 import { currencyFormatter } from '../utils/Currency';
 
 const ViewTransactionsModal = ({show, handleClose, name, id}) => {
@@ -18,7 +17,7 @@ const ViewTransactionsModal = ({show, handleClose, name, id}) => {
   }
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this folder?') && id !== UNCATEGORIZED_FOLDER_ID) {
+    if (window.confirm('Delete this folder?')) {
       await deleteFolder(id);
       toast.success('Folder sucessfully deleted!', {
         position: toast.POSITION.TOP_CENTER
@@ -38,7 +37,7 @@ const ViewTransactionsModal = ({show, handleClose, name, id}) => {
         <Modal.Title>
           <Stack direction="horizontal" gap="2">
             <div>Transactions - {name}</div>
-            {name !== UNCATEGORIZED_FOLDER_NAME && (
+            {(
               <Button
                 onClick={() => handleDelete(id)}
                 variant="outline-danger"

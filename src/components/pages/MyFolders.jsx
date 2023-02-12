@@ -47,7 +47,7 @@ const MyFolders = () => {
         gridTemplateColumns: 'repeat(auto-fill, minmax(1000px, 1fr)',
         gap: '1rem', alignItems: 'flex-start' }} >
           <Row className="row-cols-1 row-cols-md-2 g-4">
-            {data?.map((item) => (
+            {data?.map((item) => item.owner === localStorage.getItem('user') && (
                 <Col key={item.id}>
                   <FolderCard name={item.name} amount={getSums(item).amount} max = {getSums(item).max} id={item.id} dark/>
                 </Col>
